@@ -1,0 +1,51 @@
+{
+  "name": "health-info-api-backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production PORT=80 pm2 start server.js",
+    "dev": "nodemon server",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Health-info/health-info-API-backend.git"
+  },
+  "author": "hyukjinKimm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Health-info/health-info-API-backend/issues"
+  },
+  "homepage": "https://github.com/Health-info/health-info-API-backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-rate-limit": "^6.5.1",
+    "express-session": "^1.17.3",
+    "helmet": "^5.1.1",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "nunjucks": "^3.2.3",
+    "passport": "^0.6.0",
+    "passport-kakao": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "pm2": "^5.2.0",
+    "sequelize": "^6.21.3",
+    "sequelize-cli": "^6.4.1",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.5.0",
+    "uuid": "^8.3.2",
+    "winston": "^3.8.1"
+  },
+  "devDependencies": {
+    "jest": "^28.1.3",
+    "nodemon": "^2.0.19"
+  }
+}
