@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const nunjucks = require('nunjucks');
 const path = require('path');
 const session = require('express-session');
 const dotenv = require('dotenv');
@@ -12,9 +13,9 @@ const hpp = require('hpp');
 
 dotenv.config();
 
-
+const v1 = require('./routes/v1');
 const authRouter = require('./routes/auth');
-
+const indexRouter = require('./routes');
 const { sequelize } = require('./models');
 const passportConfig = require('./passport');
 const logger = require('./logger');
@@ -23,8 +24,13 @@ const { globalLimiter } = require('./routes/middlewares');
 const app = express();
 passportConfig(); // 패스포트 설정
 app.set('port', process.env.PORT || 8001);
+app.set('view engine', 'html');
+nunjucks.configure('views', {
+  express: app,
+  watch: true,
+});
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
   .then(() => {
     console.log('데이터베이스 연결 성공');
   })
@@ -40,7 +46,8 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 
-app.use(globalLimiter);
+//app.use(globalLimiter);
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -64,8 +71,9 @@ app.use(cors({origin: true, credentials: true}));
 
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs))
+app.use('/v1', v1);
 app.use('/auth', authRouter);
-
+app.use('/', indexRouter);
 
 app.use((req, res, next) => {
   const error =  new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
